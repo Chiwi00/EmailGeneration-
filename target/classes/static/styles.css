@@ -1,0 +1,96 @@
+body,
+html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: rgb(213, 240, 233);
+}
+
+.copy-icon {
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+main {
+    flex: 1;
+    margin: 25px;
+}
+
+
+
+.navbar {
+    background-color: #2EE8B4;
+    color: #fff;
+    padding: 10px 0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center; 
+    flex: 1;
+}
+
+
+input[type="text"],
+select {
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select {
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.btn-danger,
+.btn-primary,
+.btn-secondary {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+}
+
+.footer{
+    background-color: #2EE8B4;
+    color: #000000;
+    padding: 10px 0;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+}
+
+
+
+#result {
+    width: calc(40% - 12px);
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #227b51;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.form-group-bootones {
+    margin-top: 50px;
+}
+
+.btn {
+    background-color: #2EE8B4;
+}
+

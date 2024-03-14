@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Sección de encabezado con metadatos -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles.css"> 
+</head>
+
+<body>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light ">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Codebay</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="./formulario.html">Inicio</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Contenido principal -->
+        <main>
+            <!-- Formulario para ingresar información -->
+            <form id="emailForm" name="form">
+
+                <div class="form-group ">
+                    <label for="firstName"><h1>Email Generator</h1></label>
+                </div>
+
+                <!-- Campo de entrada para el nombre -->
+                <div class="form-group">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName">
+                </div>
+
+                <!-- Campo de entrada para el apellido -->
+                <div class="form-group">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName">
+                </div>
+
+                <!-- Selección de la ubicación de la oficina -->
+                <div class="form-group">
+                    <label for="officeLocation">Office Location:</label>
+                    <select class="form-control" id="officeLocation" name="officeLocation" onchange="updateDropdownOptions()">
+                        <option value="0">Country/City</option>
+                        <option value="1">Spain</option>
+                        <option value="2">Milan</option>
+                        <option value="3">New York</option>
+                    </select>
+                </div>
+
+                <!-- Selección del departamento -->
+                <div class="form-group">
+                    <label for="department">Department:</label>
+                    <select class="form-control" id="department" name="department">
+                        <option value="-">Department</option>
+                    </select>
+                </div>
+
+                <!-- Botón para generar la dirección de correo electrónico -->
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary" onclick="generateEmail()">Generate Email</button>
+                </div>
+
+                <!-- Contenedor para mostrar la dirección de correo electrónico generada -->
+                <div class="form-group">
+                    <div class="result-container">
+                        <div id="result"></div>
+                        <!-- Botones para copiar y borrar la dirección de correo electrónico -->
+                        <button type="button" class="btn btn-secondary botoncopy" onclick="copyEmail()">Copy</button>
+                        <button type="button" class="btn btn-danger botoncopy" onclick="clearEmail()">Clear</button>
+                    </div>
+                </div>
+
+            </form>
+        </main>
+        
+    </div>
+
+    <!-- Pie de página -->
+    <footer>
+        <div class="containe footer">
+            <div class="row">
+                <div class="col">
+                    <p>&copy; 2024 Codebay. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+
+    <!-- Script JavaScript -->
+    <script>
+        var department1 = ["-", "Research&development", "Business"];
+        var department2 = ["-", "Design", "Business", "Advertising"];
+        var department3 = ["-", "Business", "Advertising"];
+
+        var allDepartments = [
+            [],
+            department1,
+            department2,
+            department3,
+        ];
+
+        // Función para actualizar las opciones del departamento según la ubicación seleccionada
+        function updateDropdownOptions() {
+            var officeLocation = document.form.officeLocation[document.form.officeLocation.selectedIndex].value;
+
+            if (officeLocation != 0) {
+                var myDepartment = allDepartments[officeLocation];
+                var num_departments = myDepartment.length;
+                document.form.department.length = num_departments;
+                for (var i = 0; i < num_departments; i++) {
+                    document.form.department.options[i].value = myDepartment[i];
+                    document.form.department.options[i].text = myDepartment[i];
+                }
+            } else {
+                document.form.department.length = 1;
+                document.form.department.options[0].value = "-";
+                document.form.department.options[0].text = "-";
+            }
+            document.form.department.options[0].selected = true;
+        }
+
+        // Función para generar la dirección de correo electrónico
+        function generateEmail() {
+            var firstName = document.getElementById("firstName").value;
+            var lastName = document.getElementById("lastName").value;
+            var department = document.getElementById("department").value;
+            var officeLocation = document.getElementById("officeLocation").options[document.getElementById("officeLocation").selectedIndex].innerHTML;
+            
+            // Construir un objeto JSON con la información del usuario
+            var data = JSON.stringify({ firstName: firstName, lastName: lastName, department: department, officeLocation: officeLocation });
+
+            // Realizar una solicitud POST al servidor para generar la dirección de correo electrónico
+            fetch('/generateEmail', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: data
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.text();
+                    } else {
+                        throw new Error('Error email address.');
+                    }
+                })
+                .then(email => {
+                    document.getElementById("result").innerText = email;
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
+
+        // Función para borrar la dirección de correo electrónico generada
+        function clearEmail() {
+            document.getElementById("result").innerText = "";
+        }
+
+        // Función para copiar la dirección de correo electrónico al portapapeles
+        function copyEmail() {
+            var emailElement = document.getElementById("result");
+            var email = emailElement.innerText;
+
+            if (email) {
+                navigator.clipboard.writeText(email)
+                    .then(function() {
+                        alert("Email copied");
+                    })
+                    .catch(function(error) {
+                        alert("Unable to copy email: " + error);
+                    });
+            } else {
+                alert("First you need a gmail.");
+            }
+        }
+    </script>
+</body>
+
+</html>
