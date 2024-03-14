@@ -9,8 +9,8 @@ El programa consiste en una aplicación web para generar direcciones de correo e
 
 2. Frontend (HTML, CSS, JavaScript):
    - Formulario HTML: Permite al usuario ingresar el nombre, apellido, ubicación de la oficina y departamento del empleado.
-   - Interacción con el Usuario (JavaScript)**: Proporciona funcionalidades interactivas, como la actualización dinámica de las opciones del departamento basadas en la ubicación de la oficina seleccionada.
-   - Comunicación con el Backend (Fetch API)**: Envía los datos del formulario al backend para generar la dirección de correo electrónico correspondiente.
+   - Interacción con el Usuario (JavaScript): Proporciona funcionalidades interactivas, como la actualización dinámica de las opciones del departamento basadas en la ubicación de la oficina seleccionada.
+   - Comunicación con el Backend (Fetch API): Envía los datos del formulario al backend para generar la dirección de correo electrónico correspondiente.
 
 3. Funcionalidades:
    - El usuario puede ingresar el nombre, apellido, ubicación de la oficina y departamento del empleado.
